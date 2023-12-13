@@ -11,18 +11,21 @@
     )
 }}
 
-with source_data as (
+with
+    source_data as (
 
+        select *
+        from {{ source("common_utility", "dt_c") }} zank_junk
+        where
+            (
+                btch_typ_desc
+                in ('DIM_WRK_RQST', 'DIM_MNTC_CMPGN', 'SF_RAW_SBL_CURATED_ORD')
+                and btch_curr_ind = 1
+            )
+            or (btch_exe_ind = 1 and btch_curr_ind = 1)
+        order by btch_cre_dttm desc
 
-select * from {{ source('common_utility','dt_c') }}  zank_junk
-where (btch_typ_desc in ('DIM_WRK_RQST'
-,'DIM_MNTC_CMPGN'
-,'SF_RAW_SBL_CURATED_ORD') and btch_curr_ind = 1) or (btch_exe_ind = 1 and btch_curr_ind = 1)
-order by btch_cre_dttm desc
-
-
-)
+    )
 
 select *
-from source_data   
-   
+from source_data
