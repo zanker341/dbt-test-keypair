@@ -1,0 +1,10 @@
+version: 2
+sources:
+
+
+- name: common_utility
+  description: Date Control table name
+  database: '{{ env_var("DBT_SF_DB_COMMON") }}'
+  schema: utility
+  tables:
+    - name: dt_c
